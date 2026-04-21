@@ -10,12 +10,19 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('peminjamans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('peminjamans', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        $table->foreignId('alat_id')->constrained('alats')->onDelete('cascade');
+        $table->integer('jumlah')->nullable();
+        $table->date('tanggal_pinjam');
+        $table->date('tanggal_kembali');
+        $table->date('tgl_dikembalikan')->nullable();
+        $table->string('status')->default('menunggu');
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

@@ -11,10 +11,16 @@ class CheckRole
     /**
      * Handle an incoming request.
      *
-     * @param  Closure(Request): (Response)  $next
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        return $next($request);
+        // Cek apakah user yang login punya role yang ada di dalam daftar $roles
+        if (in_array($request->user()->role, $roles)) {
+            return $next($request);
+        }
+
+        // Jika tidak punya akses, lempar ke halaman utama
+        return redirect('/');
     }
-}
+} // Pastikan ada kurung tutup ini untuk menutup class!

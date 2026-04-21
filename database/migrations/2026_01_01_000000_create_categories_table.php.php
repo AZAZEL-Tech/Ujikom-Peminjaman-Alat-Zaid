@@ -9,19 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+   public function up(): void
+{
+    // Gunakan 'categories' agar sinkron dengan tabel alats
+    Schema::create('categories', function (Blueprint $table) { 
+        $table->id();
+        $table->string('nama_kategori');
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('kategoris');
     }
 };

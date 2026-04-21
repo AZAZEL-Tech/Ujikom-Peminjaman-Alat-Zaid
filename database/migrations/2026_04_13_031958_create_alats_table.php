@@ -10,12 +10,16 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('alats', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('alats', function (Blueprint $table) {
+        $table->id();
+        // foreignId ini untuk menghubungkan ke tabel kategoris
+        $table->foreignId('kategori_id')->constrained('categories')->onDelete('cascade');
+        $table->string('nama_alat');
+        $table->integer('stok');
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
