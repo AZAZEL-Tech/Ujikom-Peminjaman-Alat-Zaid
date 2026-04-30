@@ -13,18 +13,21 @@ return new class extends Migration
 {
     Schema::create('peminjaman', function (Blueprint $table) {
         $table->id();
-        
-        // Foreign key to the users table
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-        
-        // Foreign key to the alat table
         $table->foreignId('alat_id')->constrained('alats')->onDelete('cascade'); 
         
-        $table->date('tgl_pinjam');
-        $table->date('tgl_kembali')->nullable();
+        // Kolom jumlah yang mau dipinjam
+        $table->integer('jumlah'); 
         
-        // Enum for status: dipinjam or dikembalikan
-        $table->enum('status', ['dipinjam', 'dikembalikan'])->default('dipinjam');
+        // Disesuaikan penamaannya dengan Controller (pakai 'tanggal_' bukan 'tgl_')
+        $table->date('tanggal_pinjam');
+        $table->date('tanggal_kembali');
+        
+        // Kolom untuk mencatat tanggal real saat alat benar-benar dikembalikan
+        $table->date('tgl_dikembalikan')->nullable(); 
+        
+        // Enum status disesuaikan dengan PDF
+        $table->enum('status', ['menunggu', 'disetujui', 'ditolak', 'kembali'])->default('menunggu');
         
         $table->timestamps();
     });

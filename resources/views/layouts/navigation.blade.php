@@ -116,4 +116,6 @@
             </div>
         </div>
     </div>
+    <x-nav-link : href="route('admin.peminjaman')" :active="request()->routeIs('admin.peminjaman')">
+    </x-nav-link>
 </nav>

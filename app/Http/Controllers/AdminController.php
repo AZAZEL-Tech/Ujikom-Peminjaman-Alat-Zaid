@@ -135,7 +135,7 @@ class AdminController extends Controller
     public function peminjaman()
     {
         // Mengambil data peminjaman beserta relasi user dan alatnya agar tampil di tabel
-        $peminjamans = Peminjaman::with(['user', 'alat'])->get();
+        $peminjamans = Peminjaman::with(['user', 'alat'])->latest()->get();
         return view('admin.peminjaman', compact('peminjamans'));
     }
 

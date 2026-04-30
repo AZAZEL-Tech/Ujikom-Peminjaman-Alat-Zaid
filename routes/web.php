@@ -13,9 +13,11 @@ Route::get('/', function () {
         $role = Auth::user()->role;
         if ($role == 'admin') return redirect()->route('admin.dashboard');
         if ($role == 'petugas') return redirect()->route('petugas.dashboard');
-        return redirect()->route('peminjam.dashboard');
+        return redirect()->route('peminjam.dashboard'); // atau dashboard
     }
-    return view('welcome');
+    
+    // UBAH MENJADI REDIRECT KE ROUTE LOGIN
+    return redirect()->route('login'); 
 });
 
 // Grup Middleware Auth (Harus Login)
@@ -57,6 +59,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/petugas/dashboard', [PetugasController::class, 'index'])->name('petugas.dashboard');
     });
 
+    Route::middleware(['auth', 'role:petugas'])->group(function () {
+    Route::get('/petugas/dashboard', [PetugasController::class, 'index'])->name('petugas.dashboard');
+    
+    // Aksi Validasi & Pengembalian (Gunakan method PATCH)
+    Route::patch('/petugas/approve/{id}', [PetugasController::class, 'approve'])->name('petugas.approve');
+    Route::patch('/petugas/reject/{id}', [PetugasController::class, 'reject'])->name('petugas.reject');
+    Route::patch('/petugas/return/{id}', [PetugasController::class, 'return'])->name('petugas.return');
+});
+
     // --- ROUTE KHUSUS PEMINJAM ---
     Route::middleware(['role:peminjam'])->group(function () {
         Route::get('/dashboard', [PeminjamController::class, 'index'])->name('dashboard');
@@ -70,4 +81,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/peminjaman/{id}', [AdminController::class, 'destroyPeminjaman'])->name('admin.peminjaman.destroy');
 });
 
+Route::get('/admin/peminjaman', [AdminController::class, 'peminjaman'])->name('admin.peminjaman');
+
+//Peminjam
+     Route::middleware(['role:peminjam'])->group(function () {
+        Route::get ('/dashboard', [PeminjamController::class, 'index'])->name('dashboard');
+        Route::post('/pinjam', [PeminjamController::class, 'store'])->name('pinjam.store');
+     });
+
+     
 require __DIR__.'/auth.php';

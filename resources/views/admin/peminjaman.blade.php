@@ -31,7 +31,7 @@
                                 <td class="px-6 py-4 border-b text-sm text-gray-700">{{ $p->tgl_pinjam }}</td>
                                 <td class="px-6 py-4 border-b text-sm text-gray-700">{{ $p->tgl_kembali ?? '-' }}</td>
                                 <td class="px-6 py-4 border-b text-sm">
-                                    <span class="px-2 py-1 inline-flex text-xs font-semibold rounded-full 
+                                    <span   class="px-2 py-1 inline-flex text-xs font-semibold rounded-full 
                                         {{ $p->status == 'dipinjam' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' }}">
                                         {{ ucfirst($p->status) }}
                                     </span>
